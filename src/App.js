@@ -6,10 +6,12 @@ import { Toaster } from "react-hot-toast";
 import Context from "./context/context";
 import Login from "./pages/login/login";
 import Register from "./pages/register/register";
+import Task from "./pages/task/task";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
+  { path: "/task", element: <Task /> },
 ]);
 
 function App() {
