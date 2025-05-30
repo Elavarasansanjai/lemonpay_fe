@@ -62,8 +62,7 @@
 }
 .task_table_container table tbody tr {
   width: 100%;
-  margin-bottom: 10px;
-
+  margin-bottom: 300px;
   padding: 10px;
 }
 
@@ -131,7 +130,12 @@
   .mobile-task-list {
     display: none;
   }
-
+  
+  .login_header_logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
   .task-table {
     display: table;
     width: 100%;

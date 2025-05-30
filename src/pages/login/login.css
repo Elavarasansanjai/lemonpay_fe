@@ -1,11 +1,12 @@
 .login_container {
   background: linear-gradient(151.08deg, #ffffff 20.71%, #2343a3 66.01%);
   background-blend-mode: lighten;
-  height: 150vh;
+  height: 100vh;
   width: 100%;
   padding: 27px;
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
 }
 .login_header_logo img {
   width: 329px;
@@ -67,12 +68,18 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   position: relative;
 }
 .login_form_inp_container label {
   color: #ffffff;
   font-size: 16px;
+}
+.login_form_inp:hover {
+  border: 0.79px solid #dbd55b;
+  box-shadow: 0px 4px 7.1px 0px #dbd55b;
+
+  box-shadow: 0px -4px 7.2px 0px #dbd55b;
 }
 .login_form_inp {
   width: 378px;
@@ -125,7 +132,7 @@ form {
   height: 303px;
   position: absolute;
   border-radius: 50%;
-  background: #d5c4ca70;
+  background: #d5c4ca4b;
   top: -20%;
   right: -15%;
 }
@@ -148,7 +155,7 @@ form {
   left: 30%;
 }
 .register_err_text {
-  color: rgb(250, 36, 36);
+  color: #dbd55b;
   font-size: 10px;
   width: 378px;
 }
@@ -163,4 +170,65 @@ form {
   user-select: none;
 
   font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .login_header_logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .login_header_logo img {
+    width: 220px;
+    height: 68.50650787353516px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  .login_text_container {
+    display: none;
+  }
+
+  .login_form_container {
+    margin-top: 150px;
+    width: 100%;
+  }
+  .login_form_header {
+    font-size: 28px;
+  }
+  .login_description_form_text {
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .login_form_inp_container label {
+    font-size: 16px;
+  }
+  .login_form_inp {
+    width: 100%;
+  }
+  .login_remember_me {
+    width: 100%;
+    font-size: 16px;
+  }
+  .form_submit_btn {
+    width: 100%;
+    z-index: 3;
+  }
+  .shade_3 {
+    display: none;
+  }
+  .shade_1 {
+    top: 6%;
+    right: -55%;
+  }
+  .shade_2 {
+    bottom: -30%;
+    left: -40%;
+    z-index: 1;
+  }
+  .register_err_text {
+    color: #dbd55b;
+  }
+  .register_toggle_password {
+    right: 8%;
+  }
 }

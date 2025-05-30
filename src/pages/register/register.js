@@ -128,7 +128,7 @@ const Register = () => {
         </div>
         <div
           className="login_form_container"
-          style={{ transform: "translateY(-50px)" }}
+          style={{ transform: "translateY(-90px)" }}
         >
           <p className="login_form_header">Welcome Sign Up System </p>
           <div className="login_description_form">

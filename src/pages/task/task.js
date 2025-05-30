@@ -18,7 +18,7 @@ const Task = () => {
   const GetAllTaskStatus = GetAllTask?.code && GetAllTask?.code === 200;
 
   const handleOutsideClick = () => {
-    // setSelectedData(null);
+    setSelectedData(null);
   };
   const handleAddTask = () => {
     setSelectedData(null);
@@ -82,7 +82,10 @@ const Task = () => {
                       <div className="action-dropdown">
                         <button
                           className="dropdown-item"
-                          onClick={() => setOpenCard(true)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenCard(true);
+                          }}
                         >
                           ✓ Edit
                         </button>
@@ -144,7 +147,10 @@ const Task = () => {
                         <div className="action-dropdown">
                           <button
                             className="dropdown-item"
-                            onClick={() => setOpenCard(true)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenCard(true);
+                            }}
                           >
                             ✓ Edit
                           </button>
