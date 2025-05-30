@@ -1,12 +1,11 @@
 .login_container {
   background: linear-gradient(151.08deg, #ffffff 20.71%, #2343a3 66.01%);
   background-blend-mode: lighten;
-  height: 100vh;
+  height: 150vh;
   width: 100%;
   padding: 27px;
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
 }
 .login_header_logo img {
   width: 329px;
@@ -69,6 +68,7 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 10px;
+  position: relative;
 }
 .login_form_inp_container label {
   color: #ffffff;
@@ -146,4 +146,21 @@ form {
   background: #d5c4ca88;
   bottom: -34%;
   left: 30%;
+}
+.register_err_text {
+  color: rgb(250, 36, 36);
+  font-size: 10px;
+  width: 378px;
+}
+.register_toggle_password {
+  position: absolute;
+  right: 20%;
+  top: 38px;
+  height: 22px;
+  width: 22px;
+  object-fit: cover;
+  cursor: pointer;
+  user-select: none;
+
+  font-size: 18px;
 }

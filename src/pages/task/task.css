@@ -14,20 +14,30 @@
   width: 100%;
   display: flex;
   justify-content: right;
+  gap: 10px;
   margin: 0 10px;
 }
-.task_header_btn button {
-  width: 209px;
-  height: 73px;
+.task_header_btn_add {
+  width: 150px;
+  height: 40px;
   border: none;
   outline: none;
-  padding-top: 19px;
-  padding-right: 12px;
-  padding-bottom: 19px;
-  padding-left: 12px;
+  padding: 10px;
   font-size: 20px;
   color: #ffff;
   background-color: #1e3ba3;
+  cursor: pointer;
+  border-radius: 41px;
+}
+.task_header_btn_logout {
+  width: 150px;
+  height: 40px;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 20px;
+  color: #ffff;
+  background-color: rgb(237, 113, 113);
   cursor: pointer;
   border-radius: 41px;
 }

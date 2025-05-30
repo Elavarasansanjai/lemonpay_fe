@@ -1,120 +1,108 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./task.css";
 import { MoreVertical } from "lucide-react";
 import AddTaskModal from "./addTask/addTask";
-
+import { AppContext } from "../../context/context";
+import { apiList } from "../../context/apiList";
+import { action } from "../../context/action";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 const Task = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingTask, setEditingTask] = useState(null);
-  const tasks = [
-    {
-      id: 1,
-      date: "2/02/2024 2:00 pm",
-      task: "Design Navaratri poster",
-      description:
-        "Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero",
-    },
-    {
-      id: 2,
-      date: "2/02/2024 2:00 pm",
-      task: "Design Navaratri poster",
-      description:
-        "Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero",
-    },
-    {
-      id: 3,
-      date: "2/02/2024 2:00 pm",
-      task: "Design Navaratri poster",
-      description:
-        "Worem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero",
-    },
-  ];
-
-  const handleDropdownToggle = (taskId) => {
-    setActiveDropdown(activeDropdown === taskId ? null : taskId);
-  };
-  const handleAddTask = () => {
-    setEditingTask(null);
-    setIsModalOpen(true);
-  };
-  const handleEdit = (taskId) => {
-    console.log("Edit task:", taskId);
-    setActiveDropdown(null);
-  };
-
-  const handleDelete = (taskId) => {
-    console.log("Delete task:", taskId);
-    setActiveDropdown(null);
-  };
+  const [loading, setLoading] = useState(true);
+  const {
+    apiPOSTMethod,
+    state: { GetAllTask },
+  } = useContext(AppContext);
+  const [selectedData, setSelectedData] = useState(null);
+  const [openCard, setOpenCard] = useState(false);
+  const GetAllTaskStatus = GetAllTask?.code && GetAllTask?.code === 200;
 
   const handleOutsideClick = () => {
-    setActiveDropdown(null);
+    // setSelectedData(null);
   };
-  const handleSaveTask = (taskData) => {
-    if (editingTask) {
-      // Update existing task
-      //   setTasks(
-      //     tasks.map((task) => (task.id === editingTask.id ? taskData : task))
-      //   );
-    } else {
-      // Add new task
-      //   setTasks([...tasks, taskData]);
-    }
+  const handleAddTask = () => {
+    setSelectedData(null);
+    setOpenCard(true);
   };
 
+  useEffect(() => {
+    apiPOSTMethod(apiList?.GetAllTask, {}, action?.GetAllTask).then((res) => {
+      setLoading(false);
+    });
+  }, []);
   React.useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
     return () => document.removeEventListener("click", handleOutsideClick);
   }, []);
+
+  const handleDelete = (id) => {
+    apiPOSTMethod(apiList?.deleteData, { taskId: id }).then((res) => {
+      setSelectedData(null);
+      apiPOSTMethod(apiList?.GetAllTask, {}, action?.GetAllTask).then(
+        (res) => {}
+      );
+    });
+  };
+  const navigate = useNavigate();
+  const logoutClick = (e) => {
+    localStorage.removeItem("lemonpaytoken");
+    navigate("/login");
+  };
   return (
     <div className="task_container">
       <p className="task_header">Tasks Management</p>
       <div className="task_header_btn">
-        <button className="add-task-btn" onClick={handleAddTask}>
+        <button onClick={handleAddTask} className="task_header_btn_add">
           + Add Task
+        </button>
+        <button className="task_header_btn_logout" onClick={logoutClick}>
+          Log Out
         </button>
       </div>
       <div className="task_table_container">
         {/* Mobile Card Layout */}
         <div className="mobile-task-list">
-          {tasks.map((task) => (
-            <div key={task.id} className="task-card">
-              <div className="task-card-header">
-                <h3 className="task-title">{task.task}</h3>
-                <div className="action-container">
-                  <button
-                    className="action-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDropdownToggle(task.id);
-                    }}
-                  >
-                    <MoreVertical size={16} />
-                  </button>
+          {GetAllTaskStatus && GetAllTask?.data.length ? (
+            GetAllTask?.data.map((task, index) => (
+              <div key={index} className="task-card">
+                <div className="task-card-header">
+                  <h3 className="task-title">{task?.taskName}</h3>
+                  <div className="action-container">
+                    <button
+                      className="action-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedData(task);
+                      }}
+                    >
+                      <MoreVertical size={16} />
+                    </button>
 
-                  {activeDropdown === task.id && (
-                    <div className="action-dropdown">
-                      <button
-                        className="dropdown-item"
-                        onClick={() => handleEdit(task.id)}
-                      >
-                        ✓ Edit
-                      </button>
-                      <button
-                        className="dropdown-item delete"
-                        onClick={() => handleDelete(task.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                    {selectedData?._id === task?._id && (
+                      <div className="action-dropdown">
+                        <button
+                          className="dropdown-item"
+                          onClick={() => setOpenCard(true)}
+                        >
+                          ✓ Edit
+                        </button>
+                        <button
+                          className="dropdown-item delete"
+                          onClick={() => handleDelete(task._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
+                <p className="task-description">{task?.description}</p>
+                <p className="task-date">{task?.dueDate}</p>
               </div>
-              <p className="task-description">{task.description}</p>
-              <p className="task-date">{task.date}</p>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No Task Found!</p>
+          )}
         </div>
 
         {/* Desktop Table Layout */}
@@ -129,55 +117,68 @@ const Task = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task, index) => (
-              <tr key={task.id}>
-                <td className="task-number">
-                  <div className="number-badge">{task.id}</div>
-                </td>
-                <td className="task-date">{task.date}</td>
-                <td className="task-name">{task.task}</td>
-                <td className="task-description">{task.description}</td>
-                <td className="task-action">
-                  <div className="action-container">
-                    <button
-                      className="action-button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDropdownToggle(task.id);
-                      }}
-                    >
-                      <MoreVertical size={16} />
-                    </button>
+            {!loading && GetAllTaskStatus && GetAllTask?.data.length ? (
+              GetAllTask?.data.map((task, index) => (
+                <tr key={index}>
+                  <td className="task-number">
+                    <div className="number-badge">{index + 1}</div>
+                  </td>
+                  <td className="task-date">
+                    {format(new Date(task?.dueDate), "dd-MM-yyyy hh:mm a")}
+                  </td>
+                  <td className="task-name">{task?.taskName}</td>
+                  <td className="task-description">{task?.description}</td>
+                  <td className="task-action">
+                    <div className="action-container">
+                      <button
+                        className="action-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedData(task);
+                        }}
+                      >
+                        <MoreVertical size={16} />
+                      </button>
 
-                    {activeDropdown === task.id && (
-                      <div className="action-dropdown">
-                        <button
-                          className="dropdown-item"
-                          onClick={() => handleEdit(task.id)}
-                        >
-                          ✓ Edit
-                        </button>
-                        <button
-                          className="dropdown-item delete"
-                          onClick={() => handleDelete(task.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </td>
+                      {selectedData?._id === task?._id && (
+                        <div className="action-dropdown">
+                          <button
+                            className="dropdown-item"
+                            onClick={() => setOpenCard(true)}
+                          >
+                            ✓ Edit
+                          </button>
+                          <button
+                            className="dropdown-item delete"
+                            onClick={() => handleDelete(task._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4}>No Task Found!</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
-      <AddTaskModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSaveTask}
-        editData={editingTask}
-      />
+      {openCard && (
+        <AddTaskModal
+          isOpen={openCard}
+          onClose={() => {
+            setOpenCard(false);
+            setSelectedData(null);
+          }}
+          // onSave={handleSaveTask}
+          editData={selectedData}
+        />
+      )}
     </div>
   );
 };

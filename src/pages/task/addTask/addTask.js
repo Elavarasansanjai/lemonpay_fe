@@ -1,25 +1,69 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { X } from "lucide-react";
 import "./AddTaskModal.css";
+import { AppContext } from "../../../context/context";
+import { apiList } from "../../../context/apiList";
+import { action } from "../../../context/action";
 
-const AddTaskModal = ({ isOpen, onClose, onSave, editData = null }) => {
-  const [taskName, setTaskName] = useState(editData ? editData.task : "");
+const AddTaskModal = ({ isOpen, onClose, onSave, editData }) => {
+  console.log(editData, "--------------jhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+  const { apiPOSTMethod, apiGETMethod } = useContext(AppContext);
+  const [taskName, setTaskName] = useState(editData ? editData?.taskName : "");
+  const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState(
     editData ? editData.description : ""
   );
-  const [date, setDate] = useState(editData ? editData.date.split(" ")[0] : "");
+  const [date, setDate] = useState(
+    editData?.dueDate
+      ? new Date(editData?.dueDate).toISOString().split("T")[0]
+      : ""
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (taskName.trim() && description.trim() && date) {
-      const taskData = {
-        id: editData ? editData.id : Date.now(),
-        task: taskName.trim(),
-        description: description.trim(),
-        date: `${date} 2:00 pm`,
-      };
-      onSave(taskData);
-      handleClose();
+    setLoading(true);
+    if (!editData) {
+      if (taskName.trim() && description.trim() && date) {
+        apiPOSTMethod(apiList.AddTask, {
+          taskName: taskName,
+          description: description,
+          dueDate: date,
+        }).then((res) => {
+          setLoading(false);
+          if (res.code === 200) {
+            apiPOSTMethod(apiList.GetAllTask, {}, action.GetAllTask).then(
+              (res) => {
+                handleClose();
+              }
+            );
+          }
+        });
+      } else {
+        setLoading(false);
+        alert("Please Fill All Fealds!");
+      }
+    } else {
+      if (taskName.trim() && description.trim() && date) {
+        console.log(editData?._id, "========taskkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        apiPOSTMethod(apiList.editeTask, {
+          taskName: taskName,
+          description: description,
+          dueDate: date,
+          taskId: editData?._id,
+        }).then((res) => {
+          setLoading(false);
+          if (res.code === 200) {
+            apiPOSTMethod(apiList.GetAllTask, {}, action.GetAllTask).then(
+              (res) => {
+                handleClose();
+              }
+            );
+          }
+        });
+      } else {
+        setLoading(false);
+        alert("Please Fill All Fealds!");
+      }
     }
   };
 
@@ -69,6 +113,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, editData = null }) => {
             <input
               type="date"
               value={date}
+              min={new Date().toISOString().split("T")[0]}
               onChange={(e) => setDate(e.target.value)}
               className="form-input date-picker"
               required
@@ -79,13 +124,13 @@ const AddTaskModal = ({ isOpen, onClose, onSave, editData = null }) => {
             <button type="submit" className="save-button">
               Save
             </button>
-            <button
+            {/* <button
               type="button"
               className="cancel-button"
               onClick={handleClose}
             >
               Cancel
-            </button>
+            </button> */}
           </div>
         </form>
       </div>

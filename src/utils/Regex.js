@@ -1,13 +1,9 @@
-const MobileNumberRegex = (number) => {
-  const mobileRegex = /^[6-9]\d{9}$/;
-  return mobileRegex.test(number);
-};
-const userNameRegex = (name) => {
-  const mobileRegex = /^[A-Za-z\s]{2,50}$/;
-  return mobileRegex.test(name);
+export const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 };
 
-module.exports = {
-  MobileNumberRegex,
-  userNameRegex,
+export const validatePassword = (password) => {
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+  return passwordRegex.test(password);
 };

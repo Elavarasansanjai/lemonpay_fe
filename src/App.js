@@ -7,11 +7,12 @@ import Context from "./context/context";
 import Login from "./pages/login/login";
 import Register from "./pages/register/register";
 import Task from "./pages/task/task";
+import Auth from "./pages/Auth/Auth";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-  { path: "/task", element: <Task /> },
+  { path: "/task", element: <Auth Component={Task} /> },
 ]);
 
 function App() {

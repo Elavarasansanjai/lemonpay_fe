@@ -7,7 +7,7 @@ export const AppContext = createContext();
 const Context = (props) => {
   const initialState = {
     userProfile: {},
-    getOrders: {},
+    GetAllTask: {},
   };
   const reducer = (state, action) => {
     return { ...state, [action.type]: action.payload };
