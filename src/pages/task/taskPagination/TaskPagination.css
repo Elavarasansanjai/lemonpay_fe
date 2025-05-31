@@ -1,0 +1,118 @@
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 1rem 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.pagination-mobile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-desktop {
+  display: none;
+}
+
+.pagination-btn {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Desktop Pagination - Show only on desktop */
+@media (min-width: 768px) {
+  .pagination-mobile {
+    display: none;
+  }
+
+  .pagination-desktop {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pagination-page {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .pagination-page:hover:not(:disabled):not(.dots) {
+    background: #f5f5f5;
+    border-color: #ccc;
+    color: black;
+  }
+
+  .pagination-page.active {
+    background: white;
+    color: rgb(0, 0, 0);
+    border-color: #4f46e5;
+  }
+
+  .pagination-page.dots {
+    border: none;
+    background: none;
+    cursor: default;
+    color: #999;
+  }
+
+  .pagination-page.dots:hover {
+    background: none;
+    border: none;
+  }
+}
+
+/* Extra spacing for mobile */
+@media (max-width: 480px) {
+  .pagination-container {
+    margin: 1.5rem 0 0.75rem 0;
+  }
+
+  .pagination-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .page-info {
+    font-size: 14px;
+  }
+}

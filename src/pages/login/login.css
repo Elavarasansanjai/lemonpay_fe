@@ -173,11 +173,11 @@ form {
 }
 
 @media (max-width: 768px) {
-  .login_header_logo {
+  /* .login_header_logo {
     width: 100%;
     display: flex;
     justify-content: center;
-  }
+  } */
   .login_header_logo img {
     width: 220px;
     height: 68.50650787353516px;

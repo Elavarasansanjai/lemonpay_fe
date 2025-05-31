@@ -52,6 +52,9 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  top: -10px;
+  position: sticky;
+  background-color: white;
 }
 .task_table_container table thead tr th {
   color: #1e3ba3;
@@ -130,12 +133,7 @@
   .mobile-task-list {
     display: none;
   }
-  
-  .login_header_logo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+
   .task-table {
     display: table;
     width: 100%;
@@ -355,5 +353,34 @@
 
   .task-table th:nth-child(2) {
     width: 100px;
+  }
+  .task_header_btn_add {
+    width: 101px;
+    height: 35px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 10px;
+    color: #ffff;
+    background-color: #1e3ba3;
+    cursor: pointer;
+    border-radius: 41px;
+    margin-top: 10px;
+  }
+  .task_header_btn_logout {
+    width: 101px;
+    height: 35px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 10px;
+    color: #ffff;
+    background-color: rgb(237, 113, 113);
+    cursor: pointer;
+    border-radius: 41px;
+    margin-top: 10px;
+  }
+  .task_header {
+    font-size: 24px;
   }
 }

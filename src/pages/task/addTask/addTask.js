@@ -91,6 +91,7 @@ const AddTaskModal = ({ isOpen, onClose, onSave, editData }) => {
             <input
               type="text"
               placeholder="Enter Task Name"
+              maxLength={37}
               value={taskName}
               onChange={(e) => setTaskName(e.target.value)}
               className="form-input"
@@ -121,8 +122,13 @@ const AddTaskModal = ({ isOpen, onClose, onSave, editData }) => {
           </div>
 
           <div className="modal-actions">
-            <button type="submit" className="save-button">
-              Save
+            <button
+              type="submit"
+              className="save-button"
+              disabled={loading}
+              style={{ cursor: loading ? "not-allowed" : "pointer" }}
+            >
+              {loading ? "Loading.." : "Save"}
             </button>
             {/* <button
               type="button"
